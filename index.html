@@ -16,36 +16,15 @@
             max-width: 600px;
             margin: 20px auto;
         }
-
-        .chart-container {
-            margin-bottom: 40px;
-        }
     </style>
 </head>
 
 <body>
-    <h1>Facebook and Instagram Insights</h1>
-
     <div class="chart-container">
-        <h2>Facebook Insights</h2>
-        <canvas id="facebookInsights"></canvas>
-    </div>
-
-    <div class="chart-container">
-        <h2>Instagram Insights</h2>
         <canvas id="instagramInsights"></canvas>
     </div>
 
     <script>
-        // Sample data for demonstration
-        const facebookData = {
-            pageName: "Page Name",
-            followersCount: 1500,
-            totalLikes: 300,
-            totalComments: 150,
-            totalImpressions: 5000
-        };
-
         async function loadJSON() {
             try {
                 const response = await fetch('instagram_data.json');
@@ -64,7 +43,6 @@
                     data: {
                         labels: ['Followers', 'Interactions', 'Reach'],
                         datasets: [{
-                            label: 'Instagram Insights',
                             data: [
                                 instagramData.TotalFollowers,
                                 instagramData.Interactions,
@@ -97,43 +75,6 @@
                 console.error('Houve um problema com a operação de fetch:', error);
             }
         }
-
-        // Facebook Pizza Chart
-        const ctxFacebook = document.getElementById('facebookInsights').getContext('2d');
-        new Chart(ctxFacebook, {
-            type: 'pie',
-            data: {
-                labels: ['Followers', 'Interactions', 'Reach'],
-                datasets: [{
-                    label: 'Facebook Insights',
-                    data: [
-                        facebookData.followersCount,
-                        facebookData.totalLikes + facebookData.totalComments,
-                        facebookData.totalImpressions
-                    ],
-                    backgroundColor: ['#3b5998', '#8b9dc3', '#dfe3ee'],
-                    borderColor: '#ffffff',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function (tooltipItem) {
-                                const label = tooltipItem.label || '';
-                                const value = tooltipItem.raw || 0;
-                                return `${label}: ${value}`;
-                            }
-                        }
-                    }
-                }
-            }
-        });
 
         loadJSON();
     </script>
