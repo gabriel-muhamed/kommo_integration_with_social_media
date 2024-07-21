@@ -42,7 +42,7 @@
             totalImpressions: 5000
         };
         
-        async function loadJSON() {
+        async function instagramData() {
             try {
                 const response = await fetch('data.json');
                 if (!response.ok) {
@@ -64,7 +64,7 @@
         }
 
         // Chama a função para carregar os dados JSON
-        loadJSON();
+        instagramData();
 
 
         // Facebook Pizza Chart
