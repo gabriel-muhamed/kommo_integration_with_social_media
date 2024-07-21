@@ -13,7 +13,7 @@
         }
 
         canvas {
-            max-width: 600px;
+            max-width: 300px;
             margin: 20px auto;
         }
     </style>
@@ -41,7 +41,7 @@
                 new Chart(ctxInstagram, {
                     type: 'pie',
                     data: {
-                        labels: ['Followers', 'Interactions', 'Reach'],
+                        labels: ['Seguidores', 'Interações', 'Alcance'],
                         datasets: [{
                             data: [
                                 instagramData.TotalFollowers,
@@ -57,7 +57,7 @@
                         responsive: true,
                         plugins: {
                             legend: {
-                                position: 'top',
+                                position: 'false',
                             },
                             tooltip: {
                                 callbacks: {
