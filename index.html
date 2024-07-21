@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook and Instagram Insights</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        canvas {
+            max-width: 600px;
+            margin: 20px auto;
+        }
+        .chart-container {
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Facebook and Instagram Insights</h1>
+    
+    <div class="chart-container">
+        <h2>Facebook Insights</h2>
+        <canvas id="facebookInsights"></canvas>
+    </div>
+    
+    <div class="chart-container">
+        <h2>Instagram Insights</h2>
+        <canvas id="instagramInsights"></canvas>
+    </div>
+    
+    <script>
+        // Sample data for demonstration
+        const facebookData = {
+            pageName: "Page Name",
+            followersCount: 1500,
+            totalLikes: 300,
+            totalComments: 150,
+            totalImpressions: 5000
+        };
+        
+        async function loadJSON() {
+            try {
+                const response = await fetch('data.json');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                
+                // Acessando os dados JSON
+                const instagramData = data['Instagram Data'];
+
+                // Exibindo os dados no HTML
+                document.getElementById('username').textContent = instagramData.Username;
+                document.getElementById('followers').textContent = instagramData.TotalFollowers;
+                document.getElementById('interactions').textContent = instagramData.Interactions;
+                document.getElementById('reach').textContent = instagramData.Reach;
+            } catch (error) {
+                console.error('There was a problem with the fetch operation:', error);
+            }
+        }
+
+        // Chama a função para carregar os dados JSON
+        loadJSON();
+
+
+        // Facebook Pizza Chart
+        const ctxFacebook = document.getElementById('facebookInsights').getContext('2d');
+        new Chart(ctxFacebook, {
+            type: 'pie',
+            data: {
+                labels: ['Followers', 'Interactions', 'Reach'],
+                datasets: [{
+                    label: 'Facebook Insights',
+                    data: [
+                        facebookData.followersCount,
+                        facebookData.totalLikes + facebookData.totalComments,
+                        facebookData.totalImpressions
+                    ],
+                    backgroundColor: ['#3b5998', '#8b9dc3', '#dfe3ee'],
+                    borderColor: '#ffffff',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                const label = tooltipItem.label || '';
+                                const value = tooltipItem.raw || 0;
+                                return `${label}: ${value}`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Instagram Pizza Chart
+        const ctxInstagram = document.getElementById('instagramInsights').getContext('2d');
+        new Chart(ctxInstagram, {
+            type: 'pie',
+            data: {
+                labels: ['Followers', 'Interactions', 'Reach'],
+                datasets: [{
+                    label: 'Instagram Insights',
+                    data: [
+                        instagramData.TotalFollowers,
+                        instagramData.Interactions,
+                        instagramData.Reach
+                    ],
+                    backgroundColor: ['#C13584', '#E1306C', '#FD1D1D'],
+                    borderColor: '#ffffff',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                const label = tooltipItem.label || '';
+                                const value = tooltipItem.raw || 0;
+                                return `${label}: ${value}`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
