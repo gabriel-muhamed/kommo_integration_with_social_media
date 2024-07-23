@@ -1,11 +1,11 @@
 ## Facebook
 import requests
 
-access_token = 'EAAbZBHTyNBT0BOzjK2OlWDbFbJAujCoCvd7czdQo9JIZCmerGM21eVNZBPCiQm2gbktlZBw0gdHA4m0kKtvHqUZB6AtlAPkspFZAqrd7KuH1s0eTdW38aU64rZCWWOERobM8pzfwPmJw80KS89UoEBMLltVWmGU5zHyAZCS6KDh7SK7D90rXA9rjzweO'
-facebook_page_id = '103191527799413'
+access_token = ''
+facebook_page_id = ''
 base_url = 'https://graph.facebook.com/v20.0'
 
-# Função para obter seguidores e nome da página do Facebook
+# Function to get Facebook page followers and name
 def get_facebook_page_info(facebook_page_id, access_token):
     endpoint = f'{base_url}/{facebook_page_id}'
     params = {
@@ -15,7 +15,7 @@ def get_facebook_page_info(facebook_page_id, access_token):
     response = requests.get(endpoint, params=params)
     return response.json()
 
-# Função para obter alcance da página do Facebook
+# Function to get Facebook page reach
 def get_facebook_insights(facebook_page_id, access_token):
     endpoint = f'{base_url}/{facebook_page_id}/insights'
     params = {
@@ -26,7 +26,7 @@ def get_facebook_insights(facebook_page_id, access_token):
     response = requests.get(endpoint, params=params)
     return response.json()
 
-# Função para obter interações nas publicações da página do Facebook
+# Function to get interactions on Facebook page posts
 def get_facebook_post_insights(facebook_page_id, access_token):
     endpoint = f'{base_url}/{facebook_page_id}/posts'
     params = {
@@ -36,17 +36,17 @@ def get_facebook_post_insights(facebook_page_id, access_token):
     response = requests.get(endpoint, params=params)
     return response.json()
 
-# Função para organizar e exibir os dados
+# Function to organize and display data
 def print_formatted_data(page_info, page_insights, post_insights):
     print("Dados Facebook")
 
-    # Nome da página
+    # Page Name
     print(f"Nome da página: {page_info.get('name', 'N/A')}")
 
-    # Seguidores
+    # Followers
     print(f"Total de seguidores: {page_info.get('followers_count', 'N/A')}")
 
-    # Interações
+    # Interactions
     total_likes = 0
     total_comments = 0
     for post in post_insights.get('data', []):
@@ -55,7 +55,7 @@ def print_formatted_data(page_info, page_insights, post_insights):
 
     print(f"Interações: {total_likes + total_comments}")
 
-    # Alcance
+    # Reach
     total_impressions = 0
     total_engaged_users = 0
     for insight in page_insights.get('data', []):
@@ -67,9 +67,6 @@ def print_formatted_data(page_info, page_insights, post_insights):
                 total_engaged_users += value['value']
 
     print(f"Alcance: {total_impressions}")
-
-    # Separação das informações
-    print("==============================================================")
 
 page_info = get_facebook_page_info(facebook_page_id, access_token)
 page_insights = get_facebook_insights(facebook_page_id, access_token)
