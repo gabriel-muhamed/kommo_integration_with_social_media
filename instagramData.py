@@ -39,10 +39,10 @@ def get_instagram_media_insights(instagram_account_id, access_token):
 
 # Function to organize and display the data
 def create_json_file(account_info, account_insights, media_insights, filename='instagram_data.json'):
-    # Obter o número total de interações
+    # Interactions
     total_interactions = sum(media['like_count'] + media['comments_count'] for media in media_insights.get('data', []))
     
-    # Obter o total de alcance
+    # Reach
     reach = 0
     for insight in account_insights.get('data', []):
         if insight['name'] == 'reach':
