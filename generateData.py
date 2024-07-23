@@ -1,6 +1,6 @@
 import json
-import facebookData  # Ajuste o nome do arquivo se necessário
-import instagramData  # Ajuste o nome do arquivo se necessário
+import facebookData
+import instagramData
 
 facebook_info = facebookData.get_facebook_page_info('103191527799413', 'YOUR_ACCESS_TOKEN')
 facebook_insights = facebookData.get_facebook_insights('103191527799413', 'YOUR_ACCESS_TOKEN')
