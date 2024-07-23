@@ -2,9 +2,9 @@
 import requests
 import json
 
-access_token = 'EAAbZBHTyNBT0BOzjK2OlWDbFbJAujCoCvd7czdQo9JIZCmerGM21eVNZBPCiQm2gbktlZBw0gdHA4m0kKtvHqUZB6AtlAPkspFZAqrd7KuH1s0eTdW38aU64rZCWWOERobM8pzfwPmJw80KS89UoEBMLltVWmGU5zHyAZCS6KDh7SK7D90rXA9rjzweO'
+access_token = ''
 base_url = 'https://graph.facebook.com/v20.0'
-instagram_account_id = '17841451238414172'
+instagram_account_id = ''
 
 ## Function to get Instagram account followers and user
 def get_instagram_account_info(instagram_account_id, access_token):
