@@ -6,83 +6,121 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Facebook and Instagram Insights</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
             margin: 10px;
             padding: 0;
+            font-family: 'Roboto', sans-serif;
         }
 
         .chart-container {
-            position: absolute;
-            top: 10px;
-            left: 10px;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .chart {
+            flex: 1 1 20%;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .chart-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         canvas {
             max-width: 150px;
+            max-height: 150px;
+        }
+
+        .username {
+            font-weight: 700;
+            margin-bottom: 5px;
+            text-align: center;
+            width: 100%;
+            text-transform: uppercase;
         }
     </style>
 </head>
 
 <body>
-    <div class="chart-container">
-        <canvas id="instagramInsights"></canvas>
+    <div class="chart-container" id="chartContainer">
+
     </div>
 
     <script>
-        async function loadJSON() {
-            try {
-                const response = await fetch('instagram_data.json');
-                if (!response.ok) {
-                    throw new Error('Resposta de rede não foi ok');
-                }
-                const data = await response.json();
+        const dataFicticia = [
+            { username: 'usuário1', TotalFollowers: 1500, Interactions: 300, Reach: 1000 },
+            { username: 'usuário2', TotalFollowers: 1600, Interactions: 400, Reach: 1100 },
+            { username: 'usuário3', TotalFollowers: 100, Interactions: 500, Reach: 1200 },
+            { username: 'usuário4', TotalFollowers: 1800, Interactions: 600, Reach: 500 },
+            { username: 'usuário5', TotalFollowers: 1900, Interactions: 700, Reach: 1400 },
+            { username: 'usuário6', TotalFollowers: 2000, Interactions: 800, Reach: 1500 },
+            { username: 'usuário7', TotalFollowers: 2100, Interactions: 900, Reach: 1600 },
+            { username: 'usuário8', TotalFollowers: 2200, Interactions: 1000, Reach: 1700 },
+            { username: 'usuário9', TotalFollowers: 2300, Interactions: 1100, Reach: 1800 },
+            { username: 'usuário10', TotalFollowers: 600, Interactions: 1200, Reach: 200 }
+        ];
 
-                // Acessando os dados JSON
-                const instagramData = data['Instagram Data'];
+        function createChart(data, index) {
+            const chartContainer = document.getElementById('chartContainer');
+            const chartDiv = document.createElement('div');
+            chartDiv.className = 'chart';
 
-                // Gráfico de Pizza do Instagram
-                const ctxInstagram = document.getElementById('instagramInsights').getContext('2d');
-                new Chart(ctxInstagram, {
-                    type: 'pie',
-                    data: {
-                        labels: ['Seguidores', 'Interações', 'Alcance'],
-                        datasets: [{
-                            data: [
-                                instagramData.TotalFollowers,
-                                instagramData.Interactions,
-                                instagramData.Reach
-                            ],
-                            backgroundColor: ['#C13584', '#E1306C', '#FD1D1D'],
-                            borderColor: '#ffffff',
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: {
-                            legend: {
-                                position: 'false',
-                            },
-                            tooltip: {
-                                callbacks: {
-                                    label: function (tooltipItem) {
-                                        const label = tooltipItem.label || '';
-                                        const value = tooltipItem.raw || 0;
-                                        return `${label}: ${value}`;
-                                    }
+            const chartContentDiv = document.createElement('div');
+            chartContentDiv.className = 'chart-content';
+
+            const usernameDiv = document.createElement('div');
+            usernameDiv.className = 'username';
+            usernameDiv.innerText = data.username;
+            chartContentDiv.appendChild(usernameDiv);
+
+            const canvas = document.createElement('canvas');
+            canvas.id = 'instagramInsights' + index;
+            chartContentDiv.appendChild(canvas);
+            chartDiv.appendChild(chartContentDiv);
+            chartContainer.appendChild(chartDiv);
+
+            const ctx = canvas.getContext('2d');
+            new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Seguidores', 'Interações', 'Alcance'],
+                    datasets: [{
+                        data: [data.TotalFollowers, data.Interactions, data.Reach],
+                        backgroundColor: ['#FFD700', '#1E90FF', '#32CD32'],
+                        borderColor: '#ffffff',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false,
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function (tooltipItem) {
+                                    const label = tooltipItem.label || '';
+                                    const value = tooltipItem.raw || 0;
+                                    return `${label}: ${value}`;
                                 }
                             }
                         }
                     }
-                });
-            } catch (error) {
-                console.error('Houve um problema com a operação de fetch:', error);
-            }
+                }
+            });
         }
 
-        loadJSON();
+        dataFicticia.forEach((data, index) => createChart(data, index));
     </script>
 </body>
 
